@@ -7,7 +7,7 @@ install requirements, so it can be easily installed and distributed.
 from setuptools import find_packages, setup
 
 setup(
-    name="gaming_academy_utilpack",
+    name="PROJECT_NAME_utilpack",
     version="1.99",
     packages=find_packages(where="."),
     author="datadice-io",

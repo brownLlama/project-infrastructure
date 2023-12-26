@@ -1,0 +1,53 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0  # use the latest version
+    hooks:
+    -   id: check-yaml
+        exclude: 'kube.*\.yaml$'
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+
+-   repo: https://github.com/psf/black
+    rev: 23.9.1  # use the latest version
+    hooks:
+    -   id: black
+        name: black
+        language: python
+        entry: poetry run black
+        types: [python]
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0  # use the latest version
+    hooks:
+    -   id: flake8
+        name: flake8
+        language: python
+        entry: poetry run flake8
+        types: [python]
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0  # use the latest version
+    hooks:
+    -   id: isort
+        name: isort
+        language: python
+        entry: poetry run isort
+        types: [python]
+
+-   repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.3.0  # use the latest version
+    hooks:
+    -   id: pydocstyle
+        name: pydocstyle
+        language: python
+        entry: poetry run pydocstyle
+        types: [python]
+
+-   repo: https://github.com/terrencepreilly/darglint
+    rev: v1.8.1  # use the latest version
+    hooks:
+    -   id: darglint
+        name: darglint
+        language: python
+        entry: poetry run darglint
+        types: [python]

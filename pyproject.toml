@@ -1,5 +1,5 @@
 [tool.poetry]
-name="gaming-academy-datadice"
+name="PROJECT-NAME-datadice"
 version = "0.1.0"
 description = ""
 authors = ["it@datadice.io", "Engineers"]

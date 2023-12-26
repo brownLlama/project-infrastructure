@@ -1,8 +1,8 @@
 poetry lock
 poetry install
 poetry update
-poetry add --dev 'black'
-poetry add --dev tomli
+poetry add --group dev 'black'
+poetry add --group dev tomli
 poetry add tomli
 pre-commit install
 pre-commit autoupdate

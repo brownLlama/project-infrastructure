@@ -1,6 +1,6 @@
 # Custom Python Package
 
-This Python package is part of the datadice and gaming-academy project and provides custom functionality tailored for it which is standardized.
+This Python package is part of the datadice and PROJECT_NAME and provides custom functionality tailored for it which is standardized.
 
 ## Installation
 

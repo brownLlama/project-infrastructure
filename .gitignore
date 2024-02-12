@@ -1,7 +1,7 @@
 node_modules
 
 # Keys and Secrets
-**/development_gcp_service_account_key.json
+**/terraform_service_account_key.json
 
 # Terraform
 .terraform

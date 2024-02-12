@@ -1,0 +1,22 @@
+[
+  {
+    "name": "test",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "dcd",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "asx",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "dday",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  }
+]

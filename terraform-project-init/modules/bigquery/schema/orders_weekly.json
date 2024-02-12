@@ -1,0 +1,17 @@
+[
+  {
+    "name": "product_id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "order",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "revenue",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  }
+]

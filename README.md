@@ -74,6 +74,8 @@ pre-commit run --all-files
 pre-commit autoupdate
 ```
 
+###################################################---
+
 ### Poetry
 
 We recommend using Poetry for managing dependencies, but you can use whichever package manager you prefer. [Poetry](https://python-poetry.org/) is a Python dependency management tool that simplifies package management and project setup.
@@ -102,3 +104,25 @@ poetry add tomli
 ```
 
 These commands will ensure that your environment matches the project setup as defined in the `pyproject.toml` and `poetry.lock` files.
+
+## Cloning the repo
+
+To clone this repo, please use the following commands in your local machine. This will create a private and public key, which we will use it for SSH.
+
+```bash
+ssh-keygen -t ed25519 -C "it@datadice.io" -f ~/.ssh/airbyte -N ""
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/airbyte
+ssh-add -l
+echo -e "\n***** Public Key *****\n\n"
+cat ~/.ssh/airbyte.pub
+echo -e "\n\n***** Public Key *****"
+```
+
+Copy the public key and then goto the github repo and under `Settings -> Deploy Keys -> Add deploy key`. Give a suitable title and then paste the public key.
+
+Now to clone the repo, run the following commands to clone git repo. If there is a prompt to add fingerprint to known hosts, then type `yes`.
+
+```bash
+git clone <YOUR-SSH-GITHUB-LINK>
+```

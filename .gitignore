@@ -1,1 +1,11 @@
 node_modules
+
+# Keys and Secrets
+**/development_gcp_service_account_key.json
+
+# Terraform
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+myplan

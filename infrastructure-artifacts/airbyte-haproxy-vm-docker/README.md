@@ -25,7 +25,11 @@ Copy the public key and then goto the airbyte github repo and under `Settings ->
 Now to clone the repo, run the following commands to clone git repo. If there is a prompt to add fingerprint to known hosts, then type `yes`.
 
 ```bash
-git clone <YOUR-SSH-GITHUB-LINK>
+git clone --filter=blob:none --no-checkout <YOUR-SSH-GITHUB-LINK>
+cd <REPO-NAME>
+git sparse-checkout init --cone
+git sparse-checkout set <DIRECTORY-PATH>
+git checkout
 AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print -quit | sed 's#.*/##')
 sudo mv $AIRBYTE_DIR /srv
 ```

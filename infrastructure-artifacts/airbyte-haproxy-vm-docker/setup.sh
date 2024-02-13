@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-cd ~ || exit
-AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print | sort | grep 'project\|' | head -n 1 | sed 's#^\./##')
-sudo mv "$AIRBYTE_DIR" /srv
-sudo /srv/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
-
 apt remove docker docker-engine docker.io containerd runc
 apt update
 
@@ -51,6 +46,9 @@ cp /etc/ssl/private/airbyte-selfsigned.key "/srv/$AIRBYTE_DIR/infrastructure-art
 cp /etc/ssl/certs/airbyte-selfsigned.crt "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/"
 # Creating a pem file
 cat "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key" "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt" >"/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem"
+
+sudo mv "$AIRBYTE_DIR" /srv
+sudo /srv/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
 
 echo "You successfully setup the environment for airbyte!"
 echo "Deploying Airbyte by running ./run.sh"

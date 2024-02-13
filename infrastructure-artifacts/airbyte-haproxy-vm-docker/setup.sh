@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd ~ || exit
-AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print -quit | sed 's#^\./##')
+AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print | sort | grep 'project\|' | head -n 1 | sed 's#^\./##')
 sudo mv "$AIRBYTE_DIR" /srv
 sudo /srv/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
 
@@ -44,7 +44,7 @@ export EDITOR=vim
 # Creating a self-signed certificate
 openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/private/airbyte-selfsigned.key -out /etc/ssl/certs/airbyte-selfsigned.crt
 
-AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name 'project' -print | head -n 1 | sed 's#^\./##')
+AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print | sort | grep 'project\|' | head -n 1 | sed 's#^\./##')
 
 # Copying the self-signed certificate to the airbyte directory
 cp /etc/ssl/private/airbyte-selfsigned.key "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/"

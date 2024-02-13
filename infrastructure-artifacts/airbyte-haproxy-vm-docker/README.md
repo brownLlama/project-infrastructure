@@ -1,14 +1,16 @@
-# Clone GitHub Repo
+# Deploying Airbyte
 
-Assuming that the CE is created using Terraform, the next step would be create SSH key. If VM is created using Terraform, please run the following command to install and update required packages.
+## Generating SSH for GitHub Repo
+
+Once the VM is up and running, next step would be connecting the git repo. One of the safe way to connect git repo is via SSH key. First lets update the package manager and install git.
 
 ```bash
 sudo apt udpate
 sudo apt-get update
-sudo apt-get install -y git subversion
+sudo apt-get install -y git
 ```
 
-Once the CE is running login into the VM. The first step is to clone the `airbyte-haproxy-vm-docker` directory from the github repo. To do so, a SSH key is needed to acces the GitHub Repo. By running the following commands, it will create a SSH Key and then will prompt out the public key.
+Let's create a SSH key by running the following commands. It will create a SSH Key and then will prompt out the public key.
 
 ```bash
 ssh-keygen -t ed25519 -C "it@datadice.io" -f ~/.ssh/airbyte -N ""
@@ -20,28 +22,26 @@ cat ~/.ssh/airbyte.pub
 echo -e "\n\n***** Public Key *****"
 ```
 
-Copy the public key and then goto the airbyte github repo and under `Settings -> Deploy Keys -> Add deploy key`. Give a suitable title (suggestion: <PROJECT-NAME>-airbyte) and then paste the public key.
+Copy the public key and then goto the git repo and add the public key under deploy keys section. For GitHub, you can find it under `Settings -> Deploy Keys -> Add deploy key`. Give a suitable title (suggestion: <PROJECT-NAME>-airbyte) and then paste the public key.
 
-Now to clone the repo, run the following commands to clone git repo. If there is a prompt to add fingerprint to known hosts, then type `yes`.
+## Cloning on `airbyte-haproxy-vm-docker` directory
+
+The git repo contains all infrastructure required for the whole project and here we only need `airbyte-haproxy-vm-docker` directory to deploy airbyte. So, to clone only this directory without cloning the whole repo, we can use sparse-checkout command. When running the following commands, if there is a prompt to add fingerprint to known hosts, then type `yes`.
 
 ```bash
 git clone --filter=blob:none --no-checkout <YOUR-SSH-GITHUB-LINK>
 cd <REPO-NAME>
-git sparse-checkout init --cone
-git sparse-checkout set <DIRECTORY-PATH>
+git sparse-checkout init
+git sparse-checkout set infrastructure-artifacts/airbyte-haproxy-vm-docker
 git checkout
-AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print -quit | sed 's#.*/##')
-sudo mv $AIRBYTE_DIR /srv
 ```
 
-Before deploying the airbyte, please first read `README.md` in the repo that was just cloned. You will find this repo in the following path: `/srv/airbyte` in the VM.
+## Setting up Airbyte
 
-# Deploying Airbyte
-
-To setup all the necessary environments and deploy airbyte, run the following command.
+It is recommended to have airbyte artifacts under `srv` directory in VM and deploy airbyte within that directory. We also need to install docker-compose, configure haproxy and manage other packages. To make things easy, all can be done by running `setup.sh` file.
 
 ```bash
-sudo /srv/$AIRBYTE_DIR/setup.sh
+cd ~/<REPO-NAME>/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
 ```
 
 # Post Deployment

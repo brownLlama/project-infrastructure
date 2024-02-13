@@ -45,11 +45,10 @@ export EDITOR=vim
 openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/private/airbyte-selfsigned.key -out /etc/ssl/certs/airbyte-selfsigned.crt
 
 # Copying the self-signed certificate to the airbyte directory
-AIRBYTE_DIR=$(find /srv -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print -quit | sed 's#.*/##')
-cp /etc/ssl/private/airbyte-selfsigned.key "/srv/$AIRBYTE_DIR/haproxy/"
-cp /etc/ssl/certs/airbyte-selfsigned.crt "/srv/$AIRBYTE_DIR/haproxy/"
+cp /etc/ssl/private/airbyte-selfsigned.key "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/"
+cp /etc/ssl/certs/airbyte-selfsigned.crt "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/"
 # Creating a pem file
-cat "/srv/$AIRBYTE_DIR/haproxy/airbyte-selfsigned.key" "/srv/$AIRBYTE_DIR/haproxy/airbyte-selfsigned.crt" >"/srv/$AIRBYTE_DIR/haproxy/localhost-self-signed.pem"
+cat "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key" "/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt" >"/srv/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem"
 
 echo "You successfully setup the environment for airbyte!"
 echo "Deploying Airbyte by running ./run.sh"

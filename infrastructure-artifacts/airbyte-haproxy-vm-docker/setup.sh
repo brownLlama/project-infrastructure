@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd ~ || exit
-AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print -quit | sed 's#.\_/##')
+AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print -quit | sed 's#^\./##')
 sudo mv "$AIRBYTE_DIR" /srv
 sudo /srv/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
 

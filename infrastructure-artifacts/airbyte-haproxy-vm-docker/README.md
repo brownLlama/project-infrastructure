@@ -34,6 +34,7 @@ cd <REPO-NAME>
 git sparse-checkout init
 git sparse-checkout set infrastructure-artifacts/airbyte-haproxy-vm-docker
 git checkout
+cd
 ```
 
 ## Setting up Airbyte

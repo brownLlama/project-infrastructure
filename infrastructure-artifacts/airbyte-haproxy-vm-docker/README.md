@@ -41,7 +41,7 @@ git checkout
 It is recommended to have airbyte artifacts under `srv` directory in VM and deploy airbyte within that directory. We also need to install docker-compose, configure haproxy and manage other packages. To make things easy, all can be done by running `setup.sh` file.
 
 ```bash
-cd ~/<REPO-NAME>/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
+~/<REPO-NAME>/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
 ```
 
 # Post Deployment

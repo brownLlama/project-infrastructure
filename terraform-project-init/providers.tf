@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("./development_gcp_service_account_key.json")
+  credentials = file("./terraform_service_account_key.json")
   project     = var.project_name
   region      = var.project_region
   scopes = [

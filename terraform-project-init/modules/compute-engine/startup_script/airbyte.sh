@@ -5,4 +5,5 @@ sudo apt-get update
 sudo apt-get install -y git
 
 # Runs the Airbyte Docker container, everytimes VM restarts
-sudo /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/run.sh
+cd /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/ || exit
+sudo ./run.sh

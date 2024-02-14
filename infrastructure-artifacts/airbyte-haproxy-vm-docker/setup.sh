@@ -56,4 +56,5 @@ printf "\n***\n"
 printf "Deploying Airbyte by running ./run.sh"
 printf "\n***\n"
 
-/srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/run.sh
+cd /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker || exit
+/.run.sh

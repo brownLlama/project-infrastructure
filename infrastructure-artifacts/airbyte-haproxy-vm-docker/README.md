@@ -2,7 +2,7 @@
 
 ## Generating SSH for GitHub Repo
 
-Once the VM is up and running, next step would be connecting the git repo. One of the safe way to connect git repo is via SSH key. First lets update the package manager and install git.
+Once the VM is up and running, next step would be connecting the git repo. One of the safe way to connect git repo is via SSH key. First lets update the package manager and install git. If you created your VM using Terraform, you omit this command set and start with the next.
 
 ```bash
 sudo apt udpate

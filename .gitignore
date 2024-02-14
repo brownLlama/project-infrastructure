@@ -9,3 +9,4 @@ node_modules
 terraform.tfstate
 terraform.tfstate.backup
 myplan
+**/destroy_terraform.sh

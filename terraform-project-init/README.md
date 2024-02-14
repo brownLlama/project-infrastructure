@@ -22,8 +22,10 @@ terraform
 │       └── compute_engine_main.tf
 ...
 ...
-├── development_gcp_service_account_key.json
+├── terraform_service_account_key.json
 ├── main.tf
+├── providers.tf
+├── variables.tf
 └── README.md
 ```
 
@@ -34,6 +36,10 @@ Each Module represent a specific task on GCP. For example: `bigquery-dataset` ->
 ## Configuring the project
 
 Before running terraform, please go through all the `*-variables` files and then change their respective values.
+
+## Running Terraform
+
+- `apply_terraform.sh` -> This will initialize the terraform and run the modules that are selected in the `main.tf`. If you don't like to run all the modules, plese comment out the code.
 
 ## Basics of Terraform
 

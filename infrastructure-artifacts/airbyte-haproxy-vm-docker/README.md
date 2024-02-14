@@ -30,6 +30,7 @@ The git repo contains all infrastructure required for the whole project and here
 
 ```bash
 REPO_NAME="<REPO_NAME>"
+export REPO_NAME
 SSH_GITHUB_LINK="<SSH_GITHUB_LINK>"
 
 git clone --filter=blob:none --no-checkout "$SSH_GITHUB_LINK"

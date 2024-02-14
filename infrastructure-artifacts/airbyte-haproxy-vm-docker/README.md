@@ -26,11 +26,14 @@ Copy the public key and then goto the git repo and add the public key under depl
 
 ## Cloning on `airbyte-haproxy-vm-docker` directory
 
-The git repo contains all infrastructure required for the whole project and here we only need `airbyte-haproxy-vm-docker` directory to deploy airbyte. So, to clone only this directory without cloning the whole repo, we can use sparse-checkout command. When running the following commands, if there is a prompt to add fingerprint to known hosts, then type `yes`.
+The git repo contains all infrastructure required for the whole project and here we only need `airbyte-haproxy-vm-docker` directory to deploy airbyte. So, to clone only this directory without cloning the whole repo, we can use sparse-checkout command. When running the following commands, if there is a prompt to add fingerprint to known hosts, then type `yes`. Also, change the variables `REPO_NAME` and `SSH-GITHUB-LINK` variables.
 
 ```bash
-git clone --filter=blob:none --no-checkout <YOUR-SSH-GITHUB-LINK>
-cd <REPO-NAME>
+REPO_NAME = <REPO_NAME>
+SSH_GITHUB_LINK = <SSH_GITHUB_LINK>
+
+git clone --filter=blob:none --no-checkout "$SSH_GITHUB_LINK"
+cd "$REPO_NAME"
 git sparse-checkout init
 git sparse-checkout set infrastructure-artifacts/airbyte-haproxy-vm-docker
 git checkout
@@ -42,7 +45,7 @@ cd
 It is recommended to have airbyte artifacts under `srv` directory in VM and deploy airbyte within that directory. We also need to install docker-compose, configure haproxy and manage other packages. To make things easy, all can be done by running `setup.sh` file.
 
 ```bash
-sudo ~/<REPO-NAME>/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
+sudo ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/setup.sh
 ```
 
 # Post Deployment

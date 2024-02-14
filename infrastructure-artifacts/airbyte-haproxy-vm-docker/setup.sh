@@ -39,15 +39,19 @@ export EDITOR=vim
 # Creating a self-signed certificate
 openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/private/airbyte-selfsigned.key -out /etc/ssl/certs/airbyte-selfsigned.crt
 
-AIRBYTE_DIR=$(find . -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print | sort | grep 'project\|' | head -n 1 | sed 's#^\./##')
-
 # Copying the self-signed certificate to the airbyte directory
-cp /etc/ssl/private/airbyte-selfsigned.key ~"/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/"
-cp /etc/ssl/certs/airbyte-selfsigned.crt ~"/$AIRBYTE_DIR/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/"
+cp /etc/ssl/private/airbyte-selfsigned.key ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
+cp /etc/ssl/certs/airbyte-selfsigned.crt ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
 # Creating a pem file
-cat ~/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key ~/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt >~/"$AIRBYTE_DIR"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem
+cat ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt >~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem
 
-sudo mv "$AIRBYTE_DIR" /srv
+sudo mv "$REPO_NAME" /srv
 
-echo "You successfully setup the environment for airbyte!"
-echo "Deploying Airbyte by running ./run.sh"
+printf "\n***\n"
+printf "You successfully setup the environment for airbyte!"
+printf "\n***\n"
+
+printf "\n***\n"
+printf "Deploying Airbyte by running ./run.sh"
+printf "\n***\n"
+sudo /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/run.sh

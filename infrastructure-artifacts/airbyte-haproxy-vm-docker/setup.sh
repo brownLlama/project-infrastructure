@@ -45,7 +45,7 @@ cp /etc/ssl/certs/airbyte-selfsigned.crt ~/"$REPO_NAME"/infrastructure-artifacts
 # Creating a pem file
 cat ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt >~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem
 
-sudo mv "$REPO_NAME" /srv
+mv "$REPO_NAME" /srv
 
 printf "\n***\n"
 printf "You successfully setup the environment for airbyte!"
@@ -54,4 +54,4 @@ printf "\n***\n"
 printf "\n***\n"
 printf "Deploying Airbyte by running ./run.sh"
 printf "\n***\n"
-sudo /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/run.sh
+/srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/run.sh

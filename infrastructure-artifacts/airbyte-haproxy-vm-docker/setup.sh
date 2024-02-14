@@ -36,16 +36,17 @@ apt update
 export VISUAL=vim
 export EDITOR=vim
 
+# Moving repo to srv directory
+mv "$REPO_NAME" /srv
+
 # Creating a self-signed certificate
 openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/private/airbyte-selfsigned.key -out /etc/ssl/certs/airbyte-selfsigned.crt
 
 # Copying the self-signed certificate to the airbyte directory
-cp /etc/ssl/private/airbyte-selfsigned.key ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
-cp /etc/ssl/certs/airbyte-selfsigned.crt ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
+cp /etc/ssl/private/airbyte-selfsigned.key /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
+cp /etc/ssl/certs/airbyte-selfsigned.crt /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
 # Creating a pem file
-cat ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key ~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt >~/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem
-
-mv "$REPO_NAME" /srv
+cat /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt >/srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem
 
 printf "\n***\n"
 printf "You successfully setup the environment for airbyte!"

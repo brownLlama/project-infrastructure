@@ -29,11 +29,10 @@ Copy the public key and then goto the git repo and add the public key under depl
 The git repo contains all infrastructure required for the whole project and here we only need `airbyte-haproxy-vm-docker` directory to deploy airbyte. So, to clone only this directory without cloning the whole repo, we can use sparse-checkout command. When running the following commands, if there is a prompt to add fingerprint to known hosts, then type `yes`. Also, change the variables `REPO_NAME` and `SSH-GITHUB-LINK` variables.
 
 ```bash
-REPO_NAME="<REPO_NAME>"
-export REPO_NAME
-SSH_GITHUB_LINK="<SSH_GITHUB_LINK>"
+sudo sh -c 'echo "REPO_NAME=\"<REPO_NAME>\"" >> /etc/environment'
+source /etc/environment
 
-git clone --filter=blob:none --no-checkout "$SSH_GITHUB_LINK"
+git clone --filter=blob:none --no-checkout <GIT_SSH_LINK>
 cd "$REPO_NAME"
 git sparse-checkout init
 git sparse-checkout set infrastructure-artifacts/airbyte-haproxy-vm-docker

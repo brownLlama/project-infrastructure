@@ -1,5 +1,13 @@
 node_modules
 
+# Keys
+**/localhost-self-signed.pem
+**/airbyte-haproxy-self-signed.key
+**/airbyte-haproxy-self-signed.crt
+**/airflow-haproxy-self-signed.key
+**/airflow-haproxy-self-signed.crt
+
+
 # Keys and Secrets
 **/terraform_service_account_key.json
 

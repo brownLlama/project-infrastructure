@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# This is only to be executed on a fresh VM
 apt remove docker docker-engine docker.io containerd runc
 apt update
 

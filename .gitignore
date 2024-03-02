@@ -20,3 +20,4 @@ myplan
 # Extras
 poetry.lock
 node_modules
+logs/

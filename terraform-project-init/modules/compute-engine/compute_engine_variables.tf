@@ -10,26 +10,26 @@ variable "instances" {
     tags                 = list(string)
   }))
   default = {
-    "airbyte" = {
-      name                 = "airbyte"
+    # "airbyte" = {
+    #   name                 = "airbyte"
+    #   machine_type         = "e2-highmem-2"
+    #   boot_disk_image      = "ubuntu-os-cloud/ubuntu-2204-lts"
+    #   boot_disk_size       = 100
+    #   service_account      = "airbyte"
+    #   service_account_role = "roles/compute.admin"
+    #   startup_script_path  = "modules/compute-engine/startup_script/airbyte.sh"
+    #   tags                 = ["http-server", "https-server", "iap-ssh"]
+    # },
+    "airflow" = {
+      name                 = "airflow"
       machine_type         = "e2-highmem-2"
       boot_disk_image      = "ubuntu-os-cloud/ubuntu-2204-lts"
       boot_disk_size       = 100
-      service_account      = "airbyte"
+      service_account      = "airflow"
       service_account_role = "roles/compute.admin"
       startup_script_path  = "modules/compute-engine/startup_script/airbyte.sh"
       tags                 = ["http-server", "https-server", "iap-ssh"]
-    },
-    # "airflow" = {
-    #   name            = "airflow"
-    #   machine_type    = "e2-highmem-2"
-    #   boot_disk_image = "ubuntu-os-cloud/ubuntu-2204-lts"
-    #   boot_disk_size  = 100
-    #   service_account = "airflow"
-    #   service_account_role = "roles/compute.admin"
-    #   startup_script_path  = "modules/compute-engine/startup_script/airbyte.sh"
-    #   tags                 = ["http-server", "https-server"]
-    # }
+    }
   }
 }
 

@@ -11,7 +11,7 @@ repos:
       - id: detect-private-key
 
   - repo: https://github.com/psf/black
-    rev: 24.1.1
+    rev: 24.2.0
     hooks:
       - id: black
         name: black
@@ -62,7 +62,7 @@ repos:
         files: \.(json|markdown|md|yaml|yml)$
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.86.0
+    rev: v1.88.0
     hooks:
       - id: terraform_fmt
       - id: terraform_docs

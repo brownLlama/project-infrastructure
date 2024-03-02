@@ -56,7 +56,7 @@ To set up pre-commit hooks, first install the pre-commit package:
 
 ```bash
 pip install pre-commit
-pre install tomli
+pip install tomli
 ```
 
 #### Setting up the Project
@@ -76,13 +76,13 @@ pre-commit run --all-files
 pre-commit autoupdate
 ```
 
-## Terraform
-
-###################################################---
+l`and`poetry.lock` files.
 
 ### Poetry
 
 We recommend using Poetry for managing dependencies, but you can use whichever package manager you prefer. [Poetry](https://python-poetry.org/) is a Python dependency management tool that simplifies package management and project setup.
+
+Pleaes don't forget to update the `pyproject.toml` file with correct project name.
 
 #### Installation
 
@@ -107,4 +107,7 @@ poetry add --dev tomli
 poetry add tomli
 ```
 
-These commands will ensure that your environment matches the project setup as defined in the `pyproject.toml` and `poetry.lock` files.
+These commands will ensure that your environment matches the project setup as defined in the `pyproject.tom
+###################################################---
+
+## Terraform

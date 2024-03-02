@@ -1,5 +1,3 @@
-node_modules
-
 # Keys
 **/localhost-self-signed.pem
 **/airbyte-haproxy-self-signed.key
@@ -18,3 +16,7 @@ terraform.tfstate
 terraform.tfstate.backup
 myplan
 **/destroy_terraform.sh
+
+# Extras
+poetry.lock
+node_modules

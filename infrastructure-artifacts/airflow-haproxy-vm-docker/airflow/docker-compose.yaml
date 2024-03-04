@@ -35,6 +35,7 @@ x-airflow-common: &airflow-common
 services:
   postgres:
     image: postgres:13
+    container_name: postgres
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
@@ -53,6 +54,7 @@ services:
 
   redis:
     image: redis:latest
+    container_name: redis
     expose:
       - 6379
     healthcheck:
@@ -68,6 +70,7 @@ services:
 
   airflow-webserver:
     <<: *airflow-common
+    container_name: airflow-webserver
     command: webserver
     ports:
       - "8080:8080"
@@ -88,6 +91,7 @@ services:
 
   airflow-scheduler:
     <<: *airflow-common
+    container_name: airflow-scheduler
     command: scheduler
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
@@ -106,6 +110,7 @@ services:
 
   airflow-worker:
     <<: *airflow-common
+    container_name: airflow-worker
     command: celery worker
     healthcheck:
       # yamllint disable rule:line-length
@@ -132,6 +137,7 @@ services:
 
   airflow-triggerer:
     <<: *airflow-common
+    container_name: airflow-triggerer
     command: triggerer
     healthcheck:
       test:
@@ -154,6 +160,7 @@ services:
 
   airflow-init:
     <<: *airflow-common
+    container_name: airflow-init
     entrypoint: /bin/bash
     # yamllint disable rule:line-length
     command:
@@ -221,6 +228,7 @@ services:
 
   airflow-cli:
     <<: *airflow-common
+    container_name: airflow-cli
     profiles:
       - debug
     environment:
@@ -240,6 +248,7 @@ services:
   # See: https://docs.docker.com/compose/profiles/
   flower:
     <<: *airflow-common
+    container_name: airflow-flower
     command: celery flower
     profiles:
       - flower

@@ -1,0 +1,27 @@
+---
+version: "3.9"
+
+services:
+  haproxy:
+    image: haproxy:alpine
+    container_name: haproxy
+    # exposing port 80 and 443 for outside traffic
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    # mounting files into haproxy container
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ./localhost-self-signed.pem:/usr/local/etc/haproxy/tls.pem:ro
+    networks:
+      - airflow_internal
+      - airflow_public
+
+networks:
+  airflow_public:
+    external:
+      name: airflow_public
+  airflow_internal:
+    external:
+      name: airflow_internal

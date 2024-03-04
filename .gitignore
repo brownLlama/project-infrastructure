@@ -1,9 +1,9 @@
 # Keys
-**/localhost-self-signed.pem
-**/airbyte-haproxy-self-signed.key
-**/airbyte-haproxy-self-signed.crt
-**/airflow-haproxy-self-signed.key
-**/airflow-haproxy-self-signed.crt
+localhost-self-signed.pem
+airbyte-haproxy-self-signed.key
+airbyte-haproxy-self-signed.crt
+airflow-haproxy-self-signed.key
+airflow-haproxy-self-signed.crt
 
 
 # Keys and Secrets

@@ -41,20 +41,20 @@ export EDITOR=vim
 mv "$REPO_NAME" /srv
 
 # Creating a self-signed certificate
-openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/private/airbyte-selfsigned.key -out /etc/ssl/certs/airbyte-selfsigned.crt
+openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/ssl/private/airflow-haproxy-self-signed.key -out /etc/ssl/certs/airflow-haproxy-self-signed.crt
 
-# Copying the self-signed certificate to the airbyte directory
-cp /etc/ssl/private/airbyte-selfsigned.key /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
-cp /etc/ssl/certs/airbyte-selfsigned.crt /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/
+# Copying the self-signed certificate to the airflow directory
+cp /etc/ssl/private/airflow-haproxy-self-signed.key /srv/"$REPO_NAME"/infrastructure-artifacts/airflow-haproxy-vm-docker/haproxy/
+cp /etc/ssl/certs/airflow-haproxy-self-signed.crt /srv/"$REPO_NAME"/infrastructure-artifacts/airflow-haproxy-vm-docker/haproxy/
 # Creating a pem file
-cat /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.key /srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/airbyte-selfsigned.crt >/srv/"$REPO_NAME"/infrastructure-artifacts/airbyte-haproxy-vm-docker/haproxy/localhost-self-signed.pem
+cat /srv/"$REPO_NAME"/infrastructure-artifacts/airflow-haproxy-vm-docker/haproxy/airflow-haproxy-self-signed.key /srv/"$REPO_NAME"/infrastructure-artifacts/airflow-haproxy-vm-docker/haproxy/airflow-haproxy-self-signed.crt >/srv/"$REPO_NAME"/infrastructure-artifacts/airflow-haproxy-vm-docker/haproxy/localhost-self-signed.pem
 
 printf "\n***\n"
-printf "You successfully setup the environment for airbyte!"
+printf "You successfully setup the environment for airflow!"
 printf "\n***\n"
 
 printf "\n***\n"
-printf "Deploying Airbyte by running ./run.sh"
+printf "Deploying airflow by running ./run.sh"
 printf "\n***\n"
 
 cd /srv/"$REPO_NAME"/infrastructure-artifacts/airflow-haproxy-vm-docker || exit

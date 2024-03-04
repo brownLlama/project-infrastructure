@@ -27,7 +27,7 @@ variable "instances" {
       boot_disk_size       = 100
       service_account      = "airflow"
       service_account_role = "roles/compute.admin"
-      startup_script_path  = "modules/compute-engine/startup_script/airbyte.sh"
+      startup_script_path  = "modules/compute-engine/startup_script/airflow.sh"
       tags                 = ["http-server", "https-server", "iap-ssh"]
     }
   }

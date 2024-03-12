@@ -16,16 +16,19 @@ Classes:
 
 import json
 import os
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import firebase_admin
 import google.cloud.firestore as firestore
 from firebase_admin import credentials as fb_credentials
 from firebase_admin import firestore as firebase_firestore
 from google.cloud.firestore import Increment
-from tenacity import (retry, retry_if_exception_type, stop_after_attempt,
-                      wait_exponential, wait_fixed)
-from Typing import Any, List, Optional
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+    wait_fixed,
+)
 
 from ..quickops_toolkit.logger import get_logger
 
@@ -90,20 +93,18 @@ class CloudFirestoreController:
         wait=wait_exponential(multiplier=1, min=2, max=300),
         retry=retry_if_exception_type(Exception),
     )
-    def retryable_operation(func, *args: Any, **kwargs: Any):
+    def retryable_operation(func, *args, **kwargs):
         """
         Retry a Firestore operation with exponential backoff.
 
-        This static method retries a function (intended to be a Firestore operation) using a
-        retry mechanism with exponential backoff and fixed wait intervals.
-
         Args:
-            func (callable): The Firestore operation function to retry.
-            *args (Any): Variable length argument list for the Firestore operation function.
-            **kwargs (Any): Arbitrary keyword arguments for the Firestore operation function.
+            func: The function to be retried.
+            *args: Positional arguments for the function.
+            **kwargs: Keyword arguments for the function.
 
         Returns:
-            The result of the Firestore operation function.
+            The result of the function.
+
         """
         logger.debug(
             f"Retrying Firestore operation: {func.__name__} with args: {args} and kwargs: {kwargs}"
@@ -333,20 +334,16 @@ class CloudFirestoreController:
         retry=retry_if_exception_type(Exception),
     )
     def modify_counter_by_path(
-        self,
-        path: List[str],
-        field_name: str,
-        mode: str,
-        increment_by: Optional[int] = 1,
+        self, path: list, field_name: str, mode: str, increment_by: int = 1
     ):
         """
-            Modify a numeric field in a document at a specified path by either incrementing it or resetting it to zero.
+        Modify a numeric field in a document at a specified path by either incrementing it or resetting it to zero.
 
         Args:
             path (list): The path to the Firestore document.
             field_name (str): The field to be modified.
             mode (str): The operation mode - "increment" or "reset".
-            increment_by (int, optional): The amount to increment by. Defaults to 1.
+            increment_by (int): The amount to increment by. Defaults to 1.
 
         Raises:
             FirestorePathError: If the path does not point to a document or if an invalid mode is provided.
@@ -476,23 +473,23 @@ class CloudFirestoreController:
     def query_collection_by_path(
         self,
         path: list,
-        query_params: Optional[List] = None,
+        query_params: list = None,
         sort_by=None,
         limit=None,
         start_after=None,
     ):
         """
-        Query a Firestore collection by path with optional query parameters, sorting, and pagination.
+        Query documents from a Firestore collection based on the given path and parameters.
 
         Args:
             path (list): The path to the Firestore collection.
-            query_params (list, optional): A list of query parameters for filtering documents.
-            sort_by (tuple, optional): A tuple containing the field name to sort by and the sort direction.
-            limit (int, optional): The maximum number of documents to return.
-            start_after (document, optional): A document snapshot to start the query after.
+            query_params (list): Parameters to filter which documents will be queried.
+            sort_by (tuple, optional): Field name and direction ('ASC' or 'DESC') for sorting documents.
+            limit (int, optional): The maximum number of documents to retrieve.
+            start_after (str, optional): Start retrieving documents after this document ID.
 
         Returns:
-            A list of dictionaries representing the queried documents.
+            list: A list of dictionaries containing the queried documents, including the document ID.
 
         Raises:
             FirestorePathError: If the path does not point to a collection.
@@ -543,29 +540,30 @@ class CloudFirestoreController:
     def query_collection_by_path_pagination(
         self,
         path: list,
-        query_params: Optional[List] = None,
+        query_params: list = None,
         sort_by=None,
         limit=None,
         start_after=None,
     ):
-      """
-        Query a Firestore collection by path with pagination, using provided query parameters and sorting.
+        """
+        Query documents from a Firestore collection with pagination.
 
         Args:
-            path (list): The Firestore collection path.
-            query_params (list, optional): Parameters to filter the collection documents.
-            sort_by (tuple, optional): Field name and direction ('ASC' or 'DESC') for sorting results.
-            limit (int, optional): Maximum number of documents to return.
-            start_after (document, optional): Document snapshot to start the query (for pagination).
+            path (list): The path to the Firestore collection.
+            query_params (list): Parameters to filter which documents will be queried.
+            sort_by (tuple, optional): Field name and direction ('ASC' or 'DESC') for sorting documents.
+            limit (int, optional): The maximum number of documents to retrieve.
+            start_after (str, optional): Start retrieving documents after this document ID.
 
         Returns:
-            A tuple containing a list of queried documents and the last document snapshot.
+            tuple: A tuple containing a list of dictionaries containing the queried documents,
+                including the document ID, and the last document queried.
 
         Raises:
             FirestorePathError: If the path does not point to a collection.
             ValueError: If sort direction is invalid.
         """
-      ref_type, collection_ref = self.get_reference_by_path(path)
+        ref_type, collection_ref = self.get_reference_by_path(path)
 
         if ref_type != COLLECTION:
             raise FirestorePathError(path, "Path must point to a collection.")
@@ -610,23 +608,23 @@ class CloudFirestoreController:
         retry=retry_if_exception_type(Exception),
     )
     def delete_documents_from_collection_by_query(
-        self,
-        path: list,
-        query_params: Optional[List] = None,
-        batch_size=500,
-        sort_by=None,
+        self, path: list, query_params: list = None, batch_size=500, sort_by=None
     ):
         """
         Delete documents from a Firestore collection that match the given query parameters.
 
         Args:
             path (list): The path to the Firestore collection.
-            query_params (list, optional): Parameters to filter which documents will be deleted.
+            query_params (list): Parameters to filter which documents will be deleted.
             batch_size (int): The number of documents to delete in each batch.
             sort_by (tuple, optional): Field name and direction ('ASC' or 'DESC') for sorting documents before deletion.
 
         Notes:
             This operation is batched and may result in multiple Firestore transactions.
+
+        Raises:
+            FirestorePathError: If the path does not point to a collection.
+            ValueError: If sort direction is invalid.
         """
         ref_type, collection_ref = self.get_reference_by_path(path)
         if ref_type != COLLECTION:
@@ -678,114 +676,122 @@ class CloudFirestoreController:
         Delete a batch of documents from Firestore.
 
         Args:
-            docs (list): A list of Firestore document references to delete.
-            query_params (dict, optional): Query parameters, unused in this method but retained for consistency.
-            sort_by (any, optional): Sorting parameters, unused in this method but retained for interface consistency.
+            docs (list): The list of Firestore documents to delete.
+            query_params (list, optional): Parameters used in the query to fetch the documents.
+            sort_by (tuple, optional): Field name and direction ('ASC' or 'DESC') for sorting documents before deletion.
 
         Returns:
-            int: The number of documents deleted.
+            int: The number of documents deleted in the batch.
+
+        Notes:
+            This method deletes a batch of documents in a single Firestore transaction.
+
         """
         batch = self.firebase_client.batch()
         for doc in docs:
             batch.delete(doc.reference)
         batch.commit()
         logger.debug(
-            f"Deleted {len(docs)} documents. Last item: {docs[-1].reference.path}. "
-            f"Query params: {query_params}. Sort by: {sort_by}"
+            f"Deleted {len(docs)} documents. Last item: {docs[-1].reference.path}. . Query params: {query_params}. Sort by: {sort_by}"
         )
         return len(docs)
 
-    @retry(
-        stop=stop_after_attempt(1000),
-        wait=wait_fixed(1),
-        retry=retry_if_exception_type(Exception),
-    )
-    def delete_documents_from_collection_group_by_query(
-        self,
-        collection_group: str,
-        query_params: list,
-        batch_size=500,
-        sort_by=None,
-        thread_multiplier=1,
-    ):
-        """
-        Delete documents from a Firestore collection group based on query parameters.
-
-        Args:
-            collection_group (str): The collection group from which to delete documents.
-            query_params (list): Query parameters to filter which documents will be deleted.
-            batch_size (int): The number of documents to delete in each batch.
-            sort_by (tuple): Field name and direction ('ASC' or 'DESC') for sorting documents before deletion.
-            thread_multiplier (int): Multiplier for the number of threads to use based on the number of available CPUs.
-
-        Notes:
-            This method uses multithreading to speed up the deletion process across potentially large collection groups.
-        """
-        query = self.firebase_client.collection_group(collection_group)
-        for field, operator, value in query_params:
-            query = query.where(field, operator, value)
-
-        # Ensure there is an order_by for start_after to work
-        if sort_by:
-            field_name, direction = sort_by
-            query = query.order_by(
-                field_name,
-                direction=(
-                    firestore.Query.ASCENDING
-                    if direction == "ASC"
-                    else firestore.Query.DESCENDING
-                ),
-            )
-        else:
-            raise Exception("Sort has to be provided")
-
-        num_cpus = os.cpu_count() or 1
-        max_threads = max(1, num_cpus * thread_multiplier)
-        executor = ThreadPoolExecutor(max_workers=max_threads)
-
-        is_last_page = False
-        deleted_count = 0
-        last_doc = None  # To keep track of the last document for pagination
-
-        try:
-            while not is_last_page:
-                futures = []
-                current_threads = 0
-
-                while current_threads < max_threads and not is_last_page:
-                    if last_doc:
-                        query = query.start_after(last_doc)
-
-                    docs = list(query.limit(batch_size).stream())
-
-                    if not docs:
-                        logger.info(
-                            f"No more documents to delete from the collection group {collection_group}."
-                        )
-                        is_last_page = True
-                        break
-                    last_doc = docs[-1]
-
-                    future = executor.submit(
-                        self.delete_batch, docs, query_params, sort_by
-                    )
-                    futures.append(future)
-                    current_threads += 1
-
-                    if len(docs) < batch_size:
-                        is_last_page = True
-
-                for future in as_completed(futures):
-                    count = future.result()
-                    deleted_count += count
-
-                logger.debug(
-                    f"Processed a batch of deletions, total deleted count: {deleted_count}"
-                )
-        except Exception as e:
-            logger.exception("An error occurred.")
-            raise e
-        finally:
-            executor.shutdown()
-
-        logger.info(f"Finished deleting documents. Total deleted: {deleted_count}")
+    # This code is commented out because it contains DAF issues
+    # @retry(
+    #     stop=stop_after_attempt(1000),
+    #     wait=wait_fixed(1),
+    #     retry=retry_if_exception_type(exception),
+    # )
+    # def delete_documents_from_collection_group_by_query(
+    #     self,
+    #     collection_group: str,
+    #     query_params: list,
+    #     batch_size=500,
+    #     sort_by=None,
+    #     thread_multiplier=1,
+    # ) -> None:
+    #     """
+    #     Delete documents from a firestore collection group based on a query.
+    #
+    #     Args:
+    #         collection_group (str): the name of the collection group to query.
+    #         query_params (list): list of tuples specifying query parameters (field, operator, value).
+    #         batch_size (int, optional): the batch size for each deletion operation. defaults to 500.
+    #         sort_by (tuple, optional): field name and direction ('asc' or 'desc') for sorting documents before deletion.
+    #         thread_multiplier (int, optional): multiplier for the number of threads to use in deletion operations. defaults to 1.
+    #
+    #     Returns:
+    #         None
+    #
+    #     Notes:
+    #         This method deletes documents from a firestore collection group based on the provided query parameters.
+    #         It uses multithreading for parallel deletion of documents to improve efficiency.
+    #     """
+    #     query = self.firebase_client.collection_group(collection_group)
+    #     for field, operator, value in query_params:
+    #         query = query.where(field, operator, value)
+    #
+    #     # ensure there is an order_by for start_after to work
+    #     if sort_by:
+    #         field_name, direction = sort_by
+    #         query = query.order_by(
+    #             field_name,
+    #             direction=(
+    #                 firestore.query.ascending
+    #                 if direction == "asc"
+    #                 else firestore.query.descending
+    #             ),
+    #         )
+    #     else:
+    #         raise exception("sort has to be provided")
+    #
+    #     num_cpus = os.cpu_count() or 1
+    #     max_threads = max(1, num_cpus * thread_multiplier)
+    #     executor = threadpoolexecutor(max_workers=max_threads)
+    #
+    #     is_last_page = false
+    #     deleted_count = 0
+    #     last_doc = none  # to keep track of the last document for pagination
+    #
+    #     try:
+    #         while not is_last_page:
+    #             futures = []
+    #             current_threads = 0
+    #
+    #             while current_threads < max_threads and not is_last_page:
+    #                 if last_doc:
+    #                     query = query.start_after(last_doc)
+    #
+    #                 docs = list(query.limit(batch_size).stream())
+    #
+    #                 if not docs:
+    #                     logger.info(
+    #                         f"No more documents to delete from the collection group {collection_group}."
+    #                     )
+    #                     is_last_page = True
+    #                     break
+    #                 last_doc = docs[-1]
+    #
+    #                 future = executor.submit(
+    #                     self.delete_batch, docs, query_params, sort_by
+    #                 )
+    #                 futures.append(future)
+    #                 current_threads += 1
+    #
+    #                 if len(docs) < batch_size:
+    #                     is_last_page = True
+    #
+    #             for future in as_completed(futures):
+    #                 count = future.result()
+    #                 deleted_count += count
+    #
+    #             logger.debug(
+    #                 f"Processed a batch of deletions, total deleted count: {deleted_count}"
+    #             )
+    #     except Exception as e:
+    #         logger.exception("An error occurred.")
+    #         raise e
+    #     finally:
+    #         executor.shutdown()
+    #
+    #     logger.info(f"finished deleting documents. total deleted: {deleted_count}")

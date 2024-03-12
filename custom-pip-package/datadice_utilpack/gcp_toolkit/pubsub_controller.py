@@ -98,6 +98,9 @@ class PubSubController:
 
         Returns:
             dict: The decoded message data.
+
+        Raises:
+            TypeError: If message data is neither bytes nor string.
         """
         # Check if message.data is of type bytes, decode if necessary
         if isinstance(message["data"], str):

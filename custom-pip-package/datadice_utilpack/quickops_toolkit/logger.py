@@ -94,7 +94,12 @@ def get_logger(name: str, level: int = logging.DEBUG) -> Logger:
 
 
 def _configure_library_loggers(level: int = logging.INFO):
-    """Configure loggers for common libraries used in web/API development."""
+    """
+    Configure loggers for common libraries used in web/API development.
+
+    Args:
+        level (int): The logging level to set for the libraries (default is logging.INFO).
+    """
     libraries = [
         "requests",
         "gunicorn",

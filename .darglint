@@ -1,4 +1,0 @@
-[darglint]
-docstring_style = google
-enable=DAR104
-ignore=DAR101,DAR201,DAR401

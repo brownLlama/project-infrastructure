@@ -43,7 +43,7 @@ class MonitoringController:
             description (str): The description of the metric.
 
         Returns:
-            The metric descriptor object.
+            ga_metric.MetricDescriptor: The metric descriptor object.
         """
         if metric_type in self.metric_descriptors:
             return self.metric_descriptors[metric_type]
@@ -67,7 +67,15 @@ class MonitoringController:
         return descriptor
 
     def metric_descriptor_exists(self, metric_type):
-        """Check if the metric descriptor exists in Cloud Monitoring."""
+        """
+        Check if the metric descriptor exists in Cloud Monitoring.
+
+        Args:
+            metric_type (str): The type of the metric.
+
+        Returns:
+            bool: True if the metric descriptor exists, False otherwise.
+        """
         try:
             descriptor = self.client.get_metric_descriptor(
                 name=f"{self.project_name}/metricDescriptors/custom.googleapis.com/{metric_type}"
@@ -99,7 +107,19 @@ def log_to_cloud_monitoring(
     labels,
     custom_time,
 ):
-    """Log a single data point to Google Cloud Monitoring."""
+    """
+    Log a single data point to Google Cloud Monitoring.
+
+    Args:
+        self: The object instance.
+        metric_type (str): The type of the metric.
+        value (Union[int, float]): The value of the metric.
+        metric_kind (ga_metric.MetricDescriptor.MetricKind): The kind of metric.
+        value_type (ga_metric.MetricDescriptor.ValueType): The value type of the metric.
+        description (str): The description of the metric.
+        labels (Optional[Dict[str, str]]): A dictionary of label keys and values.
+        custom_time (Optional[Union[datetime, int]]): The custom time for the data point. Defaults to None.
+    """
     logger.debug(f"Attempting to log to Cloud Monitoring - {metric_type}")
     # Check if the metric descriptor exists, create if it does not
     if not self.metric_descriptor_exists(metric_type):

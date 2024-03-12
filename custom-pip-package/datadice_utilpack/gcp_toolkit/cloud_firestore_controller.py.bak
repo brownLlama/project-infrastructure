@@ -23,13 +23,8 @@ import google.cloud.firestore as firestore
 from firebase_admin import credentials as fb_credentials
 from firebase_admin import firestore as firebase_firestore
 from google.cloud.firestore import Increment
-from tenacity import (
-    retry,
-    retry_if_exception_type,
-    stop_after_attempt,
-    wait_exponential,
-    wait_fixed,
-)
+from tenacity import (retry, retry_if_exception_type, stop_after_attempt,
+                      wait_exponential, wait_fixed)
 from Typing import Any, List, Optional
 
 from ..quickops_toolkit.logger import get_logger
@@ -345,7 +340,7 @@ class CloudFirestoreController:
         increment_by: Optional[int] = 1,
     ):
         """
-        Modify a numeric field in a document at a specified path by either incrementing it or resetting it to zero.
+            Modify a numeric field in a document at a specified path by either incrementing it or resetting it to zero.
 
         Args:
             path (list): The path to the Firestore document.
@@ -355,6 +350,7 @@ class CloudFirestoreController:
 
         Raises:
             FirestorePathError: If the path does not point to a document or if an invalid mode is provided.
+            ValueError: If an invalid mode is provided.
         """
         # Ensure the path points to a document
         if len(path) % 2 == 0:
@@ -497,6 +493,10 @@ class CloudFirestoreController:
 
         Returns:
             A list of dictionaries representing the queried documents.
+
+        Raises:
+            FirestorePathError: If the path does not point to a collection.
+            ValueError: If sort direction is invalid.
         """
         ref_type, collection_ref = self.get_reference_by_path(path)
 
@@ -548,7 +548,7 @@ class CloudFirestoreController:
         limit=None,
         start_after=None,
     ):
-        """
+      """
         Query a Firestore collection by path with pagination, using provided query parameters and sorting.
 
         Args:
@@ -560,8 +560,12 @@ class CloudFirestoreController:
 
         Returns:
             A tuple containing a list of queried documents and the last document snapshot.
+
+        Raises:
+            FirestorePathError: If the path does not point to a collection.
+            ValueError: If sort direction is invalid.
         """
-        ref_type, collection_ref = self.get_reference_by_path(path)
+      ref_type, collection_ref = self.get_reference_by_path(path)
 
         if ref_type != COLLECTION:
             raise FirestorePathError(path, "Path must point to a collection.")

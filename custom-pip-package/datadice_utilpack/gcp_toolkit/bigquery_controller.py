@@ -26,10 +26,7 @@ from typing import List, Tuple
 from google.cloud import bigquery
 from google.cloud.exceptions import NotFound
 
-from ..quickops_toolkit.custom_error import (  # DeleteRequestError,
-    GetRequestError,
-    UpsertRequestError,
-)
+from ..quickops_toolkit.custom_error import GetRequestError, UpsertRequestError
 from ..quickops_toolkit.logger import get_logger
 
 logger = get_logger(__name__)
@@ -57,8 +54,12 @@ class BigQueryController:
     def _get_table_reference(self, dataset_id: str, table_id: str):
         """Get the full table reference in the format 'project.dataset.table'.
 
+        Args:
+            dataset_id (str): The ID of the dataset containing the table.
+            table_id (str): The ID of the table.
+
         Returns:
-            str: The full table reference.
+            str: The full table reference in the format 'project.dataset.table'.
         """
         return f"{self.project_id}.{dataset_id}.{table_id}"
 
@@ -269,9 +270,11 @@ class BigQueryController:
             table_id (str): The table ID within the dataset.
             rows_to_insert (list): The rows to upsert.
             unique_columns (list[str]): The list of unique columns used to match rows.
-            schema_path (str): path string where the schema of the table lives
+            schema_path (str, optional): The path string where the schema of the table lives. Defaults to None.
+            ignore_unknown_values (bool, optional): Whether to ignore unknown values in rows_to_insert. Defaults to True.
 
         Raises:
+            ValueError: If schema_path is not provided to create a new table.
             UpsertRequestError: If upsert operation fails.
         """
         if not self._table_exists(dataset_id, table_id):

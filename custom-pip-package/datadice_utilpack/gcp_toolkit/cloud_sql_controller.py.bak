@@ -131,6 +131,9 @@ class SchemaGenerator:
 
         Returns:
             str: A string containing the CREATE TABLE SQL statement.
+
+        Raises:
+            Exception: If there's an unexpected error during the generation of the SQL statement.
         """
         if not dict_list:
             raise ValueError(
@@ -186,7 +189,16 @@ class CloudSQLController:
 
     @staticmethod
     def format_to_sql_dt(dt_with_ns):
-        """Convert DateTimeWithNanoSeconds from Firestore to formatted string for BigQuery."""
+        """
+        Convert DateTimeWithNanoSeconds from Firestore to formatted string for BigQuery.
+
+        Args:
+            dt_with_ns (Union[datetime.datetime, int]): The input datetime or UNIX timestamp.
+
+        Returns:
+            str: Formatted string representation of the input datetime.
+
+        """
         if hasattr(dt_with_ns, "seconds") and hasattr(dt_with_ns, "nanoseconds"):
             dt_object = datetime.datetime.utcfromtimestamp(
                 dt_with_ns.seconds + dt_with_ns.nanoseconds / 1e9
@@ -351,6 +363,9 @@ class CloudSQLController:
             primary_keys (List[str]): A list of primary key columns.
             on_conflict_action (str): The action to take on a conflict ('ignore' or 'update').
             timestamp_columns (List[str]): A list of columns that contain timestamp data.
+
+        Raises:
+            ValueError: If an invalid value is provided for the 'on_conflict_action' parameter.
         """
         if not data_list:
             logger.info("No data provided for upsert. Will skip.")

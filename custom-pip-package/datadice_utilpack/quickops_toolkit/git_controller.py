@@ -34,7 +34,12 @@ class GitController:
     """Manages Git operations using GCP secrets for authentication."""
 
     def __init__(self, project_id):
-        """Initialize the GitController with a specific GCP project ID."""
+        """
+        Initialize the GitController with a specific GCP project ID.
+
+        Args:
+            project_id (str): The GCP project ID.
+        """
         self.secret_controller = GCPSecretController(project_id)
 
     def clone_repo(self, ssh_url, ssh_key_secret_id, target_dir, branch="main"):
@@ -43,6 +48,12 @@ class GitController:
 
         This method clones the repository at the specified SSH URL into the target directory,
         using the SSH key retrieved from a GCP secret.
+
+        Args:
+            ssh_url (str): The SSH URL of the repository.
+            ssh_key_secret_id (str): The ID of the GCP secret containing the SSH key.
+            target_dir (str): The directory where the repository will be cloned.
+            branch (str, optional): The branch to clone (default is "main").
         """
         try:
             self._clear_directory(target_dir)
@@ -56,12 +67,25 @@ class GitController:
 
     @staticmethod
     def _clear_directory(path):
-        """Clear the specified directory."""
+        """
+        Clear the specified directory.
+
+        Args:
+            path (str): The path to the directory to clear.
+        """
         if os.path.exists(path):
             shutil.rmtree(path)
 
     def _setup_ssh_key(self, ssh_key_secret_id):
-        """Set up SSH key for Git operations."""
+        """
+        Set up SSH key for Git operations.
+
+        Args:
+            ssh_key_secret_id (str): The ID of the GCP secret containing the SSH key.
+
+        Returns:
+            _SSHKeyContextManager: A context manager for handling temporary SSH keys.
+        """
         ssh_key = self.secret_controller.get_secret_value(ssh_key_secret_id)
         ssh_key_file = tempfile.NamedTemporaryFile(delete=False)
         ssh_key_file.write(ssh_key.encode())

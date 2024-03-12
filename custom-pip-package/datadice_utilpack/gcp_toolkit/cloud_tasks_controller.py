@@ -148,6 +148,9 @@ class CloudTasksController:
             location (str): The location ID where the task queue resides.
             queue (str): The task queue ID.
             max_concurrent_dispatches (int): The new maximum number of concurrent task dispatches.
+
+        Returns:
+            Any: The updated queue.
         """
         queue_path = self.client.queue_path(self.project_id, location, queue)
         queue = self.client.get_queue(request={"name": queue_path})

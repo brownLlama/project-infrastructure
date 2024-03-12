@@ -46,7 +46,14 @@ class BQOperations:
 
     @staticmethod
     def format_to_sql_dt(dt_with_ns):
-        """Convert DateTimeWithNanoSeconds from Firestore to formatted string for BigQuery."""
+        """Convert DateTimeWithNanoSeconds from Firestore to formatted string for BigQuery.
+
+        Args:
+            dt_with_ns (Union[DateTimeWithNanoSeconds, datetime.datetime, int]): The datetime object to be formatted.
+
+        Returns:
+            Union[str, DateTimeWithNanoSeconds]: The formatted datetime string or the input object if it cannot be formatted.
+        """
         if hasattr(dt_with_ns, "seconds") and hasattr(dt_with_ns, "nanoseconds"):
             dt_object = datetime.datetime.utcfromtimestamp(
                 dt_with_ns.seconds + dt_with_ns.nanoseconds / 1e9
